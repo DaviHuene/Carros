@@ -1,3 +1,5 @@
+from turtle import pd
+from fastapi import HTTPException, UploadFile
 from sqlalchemy.orm import Session
 import logging
 from typing import Any, Dict, Generic, List, Optional, Type, TypeVar, Union
@@ -5,9 +7,12 @@ from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel
 from sqlalchemy import desc, update
 from sqlalchemy.future import select
+from crud import crud_cars
 from db.base_class import Base
 from sqlalchemy.ext.asyncio import AsyncSession
 from starlette.concurrency import run_in_threadpool
+
+from schemas.car_schema import CarCreate
 
 ModelType = TypeVar("ModelType", bound=Base)
 CreateSchemaType = TypeVar("CreateSchemaType", bound=BaseModel)
@@ -168,11 +173,11 @@ class CRUDBaseAsync(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
 
         return {'msg': 'Chamados inseridos com sucesso'}
 
-    async def create_multi(self, db: AsyncSession, *, obj_in: List[CreateSchemaType]) -> Any:
+    async def create_multi(self, db: AsyncSession, *, obj_in: List[CreateSchemaType]) -> dict:
         logging.info(f'Criando lista de objetos {self.model.__name__}')
         db_objs = [self.model(**jsonable_encoder(item)) for item in obj_in]
         db.add_all(db_objs)
-        db.commit()
+        await db.commit()
         for obj in db_objs:
             db.refresh(obj)
         return {'msg': 'Chamados inseridos com sucesso'}
@@ -247,3 +252,7 @@ class CRUDBaseAsync(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
             await db.delete(db_obj)
             await db.commit()
         return db_obj
+    
+    async def get_all(self, db: AsyncSession):
+        result = await db.execute(select(self.model))
+        return result.scalars().all()

@@ -16,17 +16,19 @@ class CarCreate(CarBase):
 
 
 class CarUpdate(BaseModel):
-    nome : str
-    modelo : str
-    cor : str
+    nome: Optional[str] = None
+    modelo: Optional[str] = None
+    cor: Optional[str] = None
 
 
 class CarInDbBase(CarBase):
     id: int
-
+    
+class Config:
+        orm_mode = True
 
 class Car(CarInDbBase):
     pass
 
 class CarRequest(CarBase):
-     modelo:str
+     pass
