@@ -16,9 +16,8 @@ Este projeto é um sistema completo para **cadastro, visualização, importaçã
 - **Excel** (importação e exportação)
 
 ---
-"""txt
-
-🧪 Funcionalidades Disponíveis
+# 🧪Funcionalidades Disponíveis
+```
 ✅ Cadastrar novo carro
 
 📋 Listar todos os carros
@@ -35,7 +34,7 @@ Este projeto é um sistema completo para **cadastro, visualização, importaçã
 
 📄 Gerar relatório de carros em PDF
 
-"""
+```
 ---
 # 📸 Interface Streamlit
 A interface permite interagir com todas as funcionalidades da API de forma visual, incluindo:
@@ -47,3 +46,5 @@ Consulta de carros
 Importação de planilha .xlsx
 
 Exportação com botões de download
+
+---
