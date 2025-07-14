@@ -16,6 +16,15 @@ Este projeto é um sistema completo para **cadastro, visualização, importaçã
 - **Excel** (importação e exportação)
 
 ---
+
+# Telas
+<img width="1174" height="445" alt="image" src="https://github.com/user-attachments/assets/d15e284a-c1f1-43e6-bad9-c320e9d716ea" /> API
+
+<img width="1215" height="662" alt="image" src="https://github.com/user-attachments/assets/babd432a-a543-4a6c-ba3b-18d71b8d36f4" /> Streamlit
+
+---
+
+
 # 🧪Funcionalidades Disponíveis
 ```
 ✅ Cadastrar novo carro
