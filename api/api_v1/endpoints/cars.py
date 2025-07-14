@@ -85,7 +85,7 @@ async def delete_car(
     return car
 
 
-@router.get("/{id}",response_model=CarRequest)
+@router.get("/Buscar-carro{id}",response_model=CarRequest)
 async def car_request( 
         id: int,
         db: AsyncSession = Depends(deps.get_db_psql),
@@ -165,7 +165,7 @@ async def export_pdf(db: AsyncSession = Depends(deps.get_db_psql)):
     <html>
     <head><style>table, th, td { border: 1px solid black; border-collapse: collapse; padding: 4px; }</style></head>
     <body>
-        <h2>Relatório de Carros</h2>
+        <h2>Relatorio de Carros</h2>
         <table>
             <tr><th>Modelo</th><th>Nome</th><th>Cor</th><th>Marca</th><th>Versão</th><th>Ano</th></tr>
             %s

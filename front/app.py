@@ -3,7 +3,7 @@ import requests
 import pandas as pd
 
 # URLs da API
-API_BASE = "http://127.0.0.1:8000/Template/api/v1/cars/"
+API_BASE = "http://127.0.0.1:8000/Template/api/v1/cars"
 API_LIST = f"{API_BASE}?skip=0&limit=100"
 
 st.title("Cadastro de Carros")
@@ -120,3 +120,39 @@ with st.expander("Atualizar um carro específico"):
                 st.text(response.text)
         except Exception as e:
             st.error(f"Erro na requisição: {str(e)}")
+# 📥 Importar Excel
+with st.expander("📥 Importar carros via Excel"):
+    uploaded_file = st.file_uploader("Escolha um arquivo Excel", type=["xlsx"])
+    if uploaded_file:
+        if st.button("Importar"):
+            files = {"file": (uploaded_file.name, uploaded_file, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")}
+            r = requests.post(f"{API_BASE}/import-excel", files=files)
+            if r.status_code == 200:
+                st.success("Carros importados com sucesso!")
+            else:
+                st.error(f"Erro ao importar: {r.json()}")
+                # 📄 Exportar PDF
+with st.expander("📤 Exportar Carros para PDF"):
+    if st.button("Exportar PDF"):
+        r = requests.get(f"{API_BASE}/export-pdf")
+        if r.status_code == 200:
+            with open("carros.pdf", "wb") as f:
+                f.write(r.content)
+            st.success("PDF exportado com sucesso!")
+            with open("carros.pdf", "rb") as f:
+                st.download_button("Baixar PDF", f, file_name="carros.pdf")
+        else:
+            st.error(f"Erro: {r.status_code}")
+
+# 📦 Exportar Excel
+with st.expander("📤 Exportar Carros para Excel"):
+    if st.button("Exportar Excel"):
+        response = requests.get(f"{API_BASE}/export-excel")
+        if response.status_code == 200:
+            with open("carros.xlsx", "wb") as f:
+                f.write(response.content)
+            st.success("Excel exportado com sucesso!")
+            with open("carros.xlsx", "rb") as f:
+                st.download_button("Baixar Excel", f, file_name="carros.xlsx")
+        else:
+            st.error(f"Erro: {response.status_code}")
